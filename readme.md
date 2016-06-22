@@ -1,4 +1,5 @@
 # HTML Builder - Cycle engine
+Cycle.js implementation of the [Html-Builder] (http://github.com/boyhagemann/html-builder) specifications
 
 ### Install
 ```
