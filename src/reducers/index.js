@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import counter from './counter'
+import rest from './rest'
 
 /**
  * A higher order component that allows multiple components
@@ -8,7 +9,7 @@ import counter from './counter'
  * @param reducer
  * @returns {Function}
  */
-function keyable(reducer) {
+function reusable(reducer) {
 
     return (state = {}, action) => {
 
@@ -25,7 +26,8 @@ function keyable(reducer) {
 }
 
 const rootReducer = combineReducers({
-    counter: keyable(counter)
+    counter: reusable(counter),
+    rest,
 })
 
 export default rootReducer

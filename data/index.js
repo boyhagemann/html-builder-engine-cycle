@@ -3,6 +3,14 @@ const events = [
   {
     selector: "#node-2",
     event: "click",
+    action: "FETCH",
+    payload: {
+      url: "http://localhost:3000"
+    }
+  },
+  {
+    selector: "#node-2",
+    event: "click",
     action: "INCREMENT",
     key: 1,
     payload: {
@@ -72,6 +80,11 @@ const nodes = {
       id: "7",
       type: "p",
       text: "Counter2 {{counter.2.count}}"
+    },
+    {
+      id: "8",
+      type: "p",
+      text: "rest {{rest.data.hash}}"
     }
   ]
 }
