@@ -22,9 +22,12 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "@cycle/history": "^4.0.0",
     "@cycle/http": "^8.2.2",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "history": "^3.0.0",
     "hogan.js": "^3.0.2",
+    "immutable": "^3.8.1",
     "react": "^15.1.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2"

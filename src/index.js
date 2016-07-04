@@ -1,17 +1,31 @@
-import makeStateDriver from "cycle-redux"
 
 import { Observable } from 'rx'
 import { run } from "@cycle/core"
 import { div, button, p, makeDOMDriver } from "@cycle/dom"
 import { makeHTTPDriver } from '@cycle/http'
+import {useQueries, createHashHistory} from 'history'
 import { nodes, events } from '../data'
-import { build } from './node'
+import makeStateDriver from 'cycle-redux'
+import { makeHistoryDriver } from './drivers/history'
 import rootReducer from './reducers'
+import { build } from './node'
 
 
 function main(sources) {
 
-    // Convert the respones into an action stream
+    // Assume that each store stream has a separate driver/reducer
+    // For each store we map
+
+    // Convert the url history into an action stream
+    const history$ = sources.history
+        .map(location => {
+            return {
+                type: 'URL',
+                payload: location
+            }
+        })
+
+    // Convert the responses into an action stream
     const response$ = sources.HTTP
         .mergeAll()
         .map(response => {
@@ -38,7 +52,7 @@ function main(sources) {
         .mergeAll()
 
     // Merge all separate actions streams into one
-    const action$ = event$.merge(response$)
+    const action$ = event$.merge(response$).merge(history$)
 
     // Perform a request only for actions of type FETCH
     const request$ = action$
@@ -47,6 +61,8 @@ function main(sources) {
 
     // Create virtual DOM tree.
     const vtree$ = sources.state
+        //.map(state => state.collection.nodes)
+        //.distinctUntilChanged()
         .map( state => build(nodes, state))
 
     // Return virtual DOM and action stream
@@ -62,10 +78,27 @@ function main(sources) {
 run(main, {
     DOM: makeDOMDriver(document.getElementById("app")),
     HTTP: makeHTTPDriver(),
+    history: makeHistoryDriver(createHashHistory()),
     state: makeStateDriver(rootReducer, {
+        rest: {
+            data: {}
+        },
+        collection: {
+            nodes,
+            products: {
+                data: [
+                    {
+                        title: 'Test1'
+                    },
+                    {
+                        title: 'Test2'
+                    },
+                ],
+            }
+        },
         counter: {
-            1: { count: 22 },
-            2: { count: 33 },
+            a: { count: 22 },
+            b: { count: 33 },
         },
     })
 })

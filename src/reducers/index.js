@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import counter from './counter'
 import rest from './rest'
+import router from './router'
+import collection from './collection'
 
 /**
  * A higher order component that allows multiple components
@@ -26,8 +28,11 @@ function reusable(reducer) {
 }
 
 const rootReducer = combineReducers({
+    collection: reusable(collection),
     counter: reusable(counter),
     rest,
+    router,
 })
+
 
 export default rootReducer

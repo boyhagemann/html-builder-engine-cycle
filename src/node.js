@@ -1,5 +1,11 @@
-import Hogan from 'hogan.js'
-import { h } from "@cycle/dom"
+import collection from './components/collection'
+import item from './components/item'
+import form from './components/form'
+import partial from './components/partial'
+import section from './components/section'
+import condition from './components/condition'
+import text from './components/text'
+import dom from './components/dom'
 
 /**
  * Recursively build html elements based on the config tree.
@@ -14,17 +20,16 @@ import { h } from "@cycle/dom"
 export function build(config, state) {
 
     // Extract variables from the config object
-    const { type, id, text, attributes, children = []} = config
+    const { type } = config
 
-    // Build a unique selector for this node.
-    // We use this selector to bind the events.
-    const selector = type + '#node-' + id
-
-    // Determine what to render inside the element
-    const content = children.length
-        ? children.map( child => build(child, state) )
-        : Hogan.compile(text).render(state)
-
-    // Build a hyperscript element
-    return h(selector, attributes, content)
+    switch(type) {
+        case 'collection':  return collection(config, state)
+        case 'item':        return item(config, state)
+        case 'condition':   return condition(config, state)
+        case 'form':        return form(config, state)
+        case 'partial':     return partial(config, state)
+        case 'section':     return section(config, state)
+        case 'text':        return text(config, state)
+        default:            return dom(config, state)
+    }
 }
