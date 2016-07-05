@@ -61,8 +61,6 @@ function main(sources) {
 
     // Create virtual DOM tree.
     const vtree$ = sources.state
-        //.map(state => state.collection.nodes)
-        //.distinctUntilChanged()
         .map( state => build(nodes, state))
 
     // Return virtual DOM and action stream

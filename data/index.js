@@ -256,6 +256,30 @@ const nodes = {
         },
       ]
     },
+    {
+      id: "page1",
+      type: "condition",
+      properties: {
+        source: "router.pathname",
+        operator: "=",
+        value: "/test2"
+      },
+      children: [
+        {
+          id: "page1.0",
+          type: "h1",
+          children: [
+            {
+              id: "page1.0.0",
+              type: "text",
+              properties: {
+                text: "Hellooo",
+              }
+            }
+          ]
+        }
+      ]
+    }
   ]
 }
 
