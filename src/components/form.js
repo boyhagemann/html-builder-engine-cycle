@@ -1,4 +1,4 @@
 
-export default function form(properties, content) {
-    return content
+export default function form(config, children, state) {
+    return
 }

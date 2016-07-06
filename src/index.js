@@ -8,13 +8,10 @@ import { nodes, events } from '../data'
 import makeStateDriver from 'cycle-redux'
 import { makeHistoryDriver } from './drivers/history'
 import rootReducer from './reducers'
-import { build } from './node'
+import { build, find } from './node'
 
 
 function main(sources) {
-
-    // Assume that each store stream has a separate driver/reducer
-    // For each store we map
 
     // Convert the url history into an action stream
     const history$ = sources.history
@@ -61,7 +58,7 @@ function main(sources) {
 
     // Create virtual DOM tree.
     const vtree$ = sources.state
-        .map( state => build(nodes, state))
+        .map( state => build(find(state.collection.nodes, 1), state))
 
     // Return virtual DOM and action stream
     return {

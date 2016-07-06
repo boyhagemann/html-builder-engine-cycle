@@ -2,10 +2,10 @@ import { build } from '../node'
 import {Observable} from 'rx'
 import Immutable  from 'immutable'
 
-export default function collection(config, state) {
+export default function collection(config, children, state) {
 
     // Extract variables from the config object
-    const { properties, children = []} = config
+    const { properties } = config
     const { source, alias } = properties
 
     // Get a part of the entire state

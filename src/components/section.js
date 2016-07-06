@@ -1,4 +1,4 @@
 
-export default function section(properties, content) {
-    return content
+export default function section(config, children, state) {
+    return
 }
