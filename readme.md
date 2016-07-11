@@ -9,3 +9,5 @@ npm install
 npm run start
 ```
 Then browse to `http://localhost:8080/public` to see a working demo.
+
+You can run `http://localhost:3000` to see the API working with the `json-server` package.

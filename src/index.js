@@ -4,7 +4,7 @@ import { run } from "@cycle/core"
 import { div, button, p, makeDOMDriver } from "@cycle/dom"
 import { makeHTTPDriver } from '@cycle/http'
 import {useQueries, createHashHistory} from 'history'
-import { nodes, events } from '../data'
+import { nodes, events, resources } from '../data'
 import makeStateDriver from 'cycle-redux'
 import { makeHistoryDriver } from './drivers/history'
 import rootReducer from './reducers'
@@ -54,7 +54,10 @@ function main(sources) {
     // Perform a request only for actions of type FETCH
     const request$ = action$
         .filter(action => action.type == 'FETCH')
-        .map(action => action.payload)
+        .map(action => {
+            const resource = find(resources, action.payload.resource, 'name')
+            return Object.assign(resource.driver.options, action.payload)
+        })
 
     // Create virtual DOM tree.
     const vtree$ = sources.state
@@ -76,20 +79,13 @@ run(main, {
     history: makeHistoryDriver(createHashHistory()),
     state: makeStateDriver(rootReducer, {
         rest: {
-            data: {}
+            products: {
+                data: []
+            }
         },
         collection: {
             nodes,
-            products: {
-                data: [
-                    {
-                        title: 'Test1'
-                    },
-                    {
-                        title: 'Test2'
-                    },
-                ],
-            }
+            resources
         },
         counter: {
             a: { count: 22 },

@@ -9,10 +9,12 @@ export default function item(config, children, state) {
     const { source, alias } = properties
 
     // Get a part of the entire state
-    const target = Immutable.fromJS(state).getIn(source.split('.')).toJS()
+    const subset = Immutable.fromJS(state).getIn(source.split('.'))
+
+    const target = subset ? subset.toJS() : null
 
     // Check if we need to alias the store
-    const context = alias
+    const context = alias && target
         ? Immutable.fromJS(state).set(alias, target).toJS()
         : state
 

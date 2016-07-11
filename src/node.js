@@ -9,7 +9,22 @@ import dom from './components/dom'
 
 const find = function(collection, value, key = 'id') {
     const found = collection.filter( item => item[key] == value)
-    return found.length ? found[0] : null
+
+    if(!found.length) {
+        throw {
+            node: value,
+            message: 'Node not found in collection'
+        }
+    }
+
+    if(found.length > 1) {
+        throw {
+            node: value,
+            message: 'Multiple nodes exist in the collection, don\'t know which one to use'
+        }
+    }
+
+    return found[0]
 }
 
 /**

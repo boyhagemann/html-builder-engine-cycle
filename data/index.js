@@ -1,11 +1,37 @@
 
+const resources = [
+  {
+    id: "1",
+    name: "test",
+    driver: {
+      type: "rest",
+      options: {
+        url: "http://localhost:3000/random"
+      }
+    }
+  },
+  {
+    id: "2",
+    name: "products",
+    driver: {
+      type: "rest",
+      options: {
+        url: "http://localhost:3000/products",
+        method: "GET",
+        query: {},
+      }
+    }
+  }
+]
+
 const events = [
   {
     selector: "#node-1_3",
     event: "click",
     action: "FETCH",
+    key: "test",
     payload: {
-      url: "http://localhost:3000"
+      resource: "test"
     }
   },
   {
@@ -34,6 +60,15 @@ const events = [
     payload: {
       amount: 1
     },
+  },
+  {
+    selector: "#node-1_6",
+    event: "click",
+    action: "FETCH",
+    key: "products",
+    payload: {
+      resource: "products"
+    }
   },
   {
     selector: "#node-1_7",
@@ -93,26 +128,13 @@ const nodes = [
   {
     id: "1_3",
     type: "button",
-    children: ["1_3_1", "1_3_2"]
+    children: ["1_3_1"]
   },
   {
     id: "1_3_1",
     type: "text",
     properties: {
       text: "Increment"
-    }
-  },
-  {
-    id: "1_3_2",
-    type: "event",
-    properties: {
-      selector: "#node-1_3",
-      event: "click",
-      action: "INCREMENT",
-      key: 'a',
-      payload: {
-        amount: 1
-      },
     }
   },
   {
@@ -196,7 +218,7 @@ const nodes = [
     id: "1_9",
     type: "item",
     properties: {
-      source: 'rest.data',
+      source: 'rest.test.data',
     },
     children: ["1_9_1"]
   },
@@ -209,7 +231,7 @@ const nodes = [
     id: "1_9_1_1",
     type: "text",
     properties: {
-      text: "rest {{rest.data.hash}}"
+      text: "rest {{rest.test.data.hash}}"
     }
   },
   {
@@ -226,7 +248,7 @@ const nodes = [
     id: "1_10_1",
     type: "collection",
     properties: {
-      source: 'collection.products',
+      source: 'rest.products',
       alias: 'my-row',
     },
     children: ["1_10_1_1"]
@@ -292,4 +314,4 @@ const nodes = [
 ]
 
 
-export { events, nodes }
+export { events, nodes, resources }

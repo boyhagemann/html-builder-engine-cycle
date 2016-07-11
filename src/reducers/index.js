@@ -30,7 +30,7 @@ function reusable(reducer) {
 const rootReducer = combineReducers({
     collection: reusable(collection),
     counter: reusable(counter),
-    rest,
+    rest: reusable(rest),
     router,
 })
 
