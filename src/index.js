@@ -9,6 +9,7 @@ import makeStateDriver from 'cycle-redux'
 import { makeHistoryDriver } from './drivers/history'
 import rootReducer from './reducers'
 import { build, find } from './node'
+import { mapStateToObject } from './helpers'
 
 
 function main(sources) {
@@ -44,7 +45,17 @@ function main(sources) {
             return sources.DOM
               .select(selector)
               .events(event)
-              .map(e => ({type: action, key, payload}))
+              .map(event => {
+
+                  console.log( mapStateToObject(payload, {event}))
+
+                  return {
+                      type: action,
+                      key,
+                      payload: mapStateToObject(payload, {event})
+                  }
+              }
+              )
         })
         .mergeAll()
 
@@ -78,11 +89,6 @@ run(main, {
     HTTP: makeHTTPDriver(),
     history: makeHistoryDriver(createHashHistory()),
     state: makeStateDriver(rootReducer, {
-        rest: {
-            products: {
-                data: []
-            }
-        },
         collection: {
             nodes,
             resources

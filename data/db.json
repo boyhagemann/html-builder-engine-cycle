@@ -6,14 +6,17 @@
   "products": [
     {
       "id": 1,
+      "slug": "test",
       "title": "Test"
     },
     {
       "id": 2,
+      "slug": "test2",
       "title": "Test2"
     },
     {
       "id": 3,
+      "slug": "test3",
       "title": "Test3"
     }
   ]

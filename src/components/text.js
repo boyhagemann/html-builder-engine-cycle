@@ -1,10 +1,10 @@
-import Hogan from 'hogan.js'
+import { mapStateToObject } from '../helpers'
 
 export default function text(config, children, state) {
 
     // Extract variables from the config object
     const { properties } = config
-    const { text } = properties
+    const { text } = mapStateToObject(properties, state)
 
-    return Hogan.compile(text).render(state)
+    return text
 }

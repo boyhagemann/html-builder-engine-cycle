@@ -21,6 +21,18 @@ const resources = [
         query: {},
       }
     }
+  },
+  {
+    id: "3",
+    name: "all-products",
+    driver: {
+      type: "rest",
+      options: {
+        url: "http://localhost:3000/products",
+        method: "GET",
+        query: {},
+      }
+    }
   }
 ]
 
@@ -71,12 +83,33 @@ const events = [
     }
   },
   {
+    selector: "#node-1_6",
+    event: "click",
+    action: "FETCH",
+    key: "all-products",
+    payload: {
+      resource: "all-products"
+    }
+  },
+  {
     selector: "#node-1_7",
     event: "mouseover",
     action: "INCREMENT",
     key: 'b',
     payload: {
       amount: -2
+    },
+  },
+  {
+    selector: "#node-3_2_1_1",
+    event: "change",
+    action: "FETCH",
+    key: 'products',
+    payload: {
+      resource: "products",
+      query: {
+        slug: "{{event.target.value}}"
+      }
     },
   }
 ]
@@ -86,7 +119,7 @@ const nodes = [
     id: "1",
     type: "div",
     attributes: {},
-    children: ["1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9", "1_10", "1_11", "1_12"]
+    children: ["1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9", "1_10", "1_11", "1_12", "1_13"]
   },
   {
     id: "1_1",
@@ -298,6 +331,17 @@ const nodes = [
     }
   },
   {
+    id: "1_13",
+    type: "partial",
+    properties: {
+      node: "3",
+      assign: {
+        label: "My label",
+        source: "rest.all-products",
+      }
+    }
+  },
+  {
     id: "2",
     type: "text",
     properties: {
@@ -310,6 +354,50 @@ const nodes = [
         required: true,
       }
     ]
+  },
+  {
+    id: "3",
+    type: "div",
+    properties: {},
+    children: ["3_1", "3_2"]
+  },
+  {
+    id: "3_1",
+    type: "text",
+    properties: {
+      text: "{{label}}"
+    },
+  },
+  {
+    id: "3_2",
+    type: "collection",
+    properties: {
+      source: '{{source}}',
+      alias: 'item',
+    },
+    children: ["3_2_1"]
+  },
+  {
+    id: "3_2_1",
+    type: "div",
+    properties: {},
+    children: ["3_2_1_1", "3_2_1_2"]
+  },
+  {
+    id: "3_2_1_1",
+    type: "input",
+    properties: {
+      type: "radio",
+      name: "test",
+      value: "{{item.slug}}"
+    },
+  },
+  {
+    id: "3_2_1_2",
+    type: "text",
+    properties: {
+      text: "{{item.title}}"
+    },
   }
 ]
 
